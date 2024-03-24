@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo App</title>
+    <style>
+        body {
+            background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+            height: 100vh;
+            padding: 0%;
+            margin: 0%;
+
+
+        }
+
+        .container {
+            background-color: white;
+            width: 700px;
+            height: 600px;
+            margin: 100px auto;
+            box-shadow: 3px 2px 3px 2px;
+
+
+        }
+
+        .head {
+            text-align: center;
+            background-color: white;
+            padding: 10px;
+        }
+
+        .heading {
+            color: black;
+            margin: auto;
+
+        }
+
+        .input {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+
+        }
+
+        .text-box {
+            padding: 5px;
+            margin: 10px;
+            font-size: 18px;
+            border: 1px solid rgb(27, 175, 255);
+        }
+
+        .list-container {
+            height: 300px;
+            overflow-y: scroll;
+            font-size: 20px;
+
+        }
+
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 7px 10px;
+            margin: 15px 10px;
+            border: 1px solid rgb(27, 175, 255);
+        }
+
+        .remove {
+            cursor: pointer;
+        }
+
+        .btn {
+            cursor: pointer;
+            background-color: #000;
+            color: #fff;
+            margin-left: 50px;
+            font-size: 15px;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="head">
+            <h1 class="heading">
+                ToDo App
+            </h1>
+
+        </div>
+        <div class="input">
+            <input type="text" id="todo-input" placeholder="Enter your taks" class="text-box">
+            <button class="btn" id="btn" onclick="addtask()">Add</button>
+        </div>
+        <div>
+            <h3 style="text-align: center;">
+                Today's task
+            </h3>
+        </div>
+        <div class="list-container" id="list-container">
+            <div class="list-item">
+                Your tasks are...
+            </div>
+        </div>
+
+
+    </div>
+    <script>
+        let todo = [];
+
+        const listcontainer = document.getElementById("list-container");
+
+        const itemdisplay = localStorage.getItem('todo')
+        if (itemdisplay) {
+            todo = JSON.parse(itemdisplay);
+            console.log(todo);
+            loadlist();
+        }
+        function loadlist() {
+
+            listcontainer.innerHTML = "";
+            localStorage.setItem('todo', JSON.stringify(todo));
+
+            for (let i = 0; i < todo.length; i++) {
+                const task = todo[i];
+                listcontainer.innerHTML += `<div class="list-item"> ${task} <span onclick = "remove(${i})"  class = "remove"> 🗑️ </span></div>`;
+            }
+
+        }
+
+        function addtask() {
+            const inputBox = document.getElementById("todo-input");
+            const task = inputBox.value;
+            
+            if (task) {
+                todo.push(task);
+                inputBox.value = "";
+                loadlist();
+            }
+
+            else {
+                alert("please enter a task");
+
+            }
+        }
+
+
+        function remove(index) {
+            todo.splice(index, 1);
+            loadlist();
+        }
+
+    </script>
+
+</body>
+
+</html>
